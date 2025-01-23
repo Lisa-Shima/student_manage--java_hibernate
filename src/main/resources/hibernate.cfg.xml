@@ -10,11 +10,15 @@
         <property name="hibernate.connection.password">p2e3r5l</property>
 
         <!-- Hibernate properties -->
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+<!--        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>-->
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.use_sql_comments">true</property>
+        <property name="hibernate.generate_statistics">true</property>
         
         <!-- Other properties -->
         <property name="hibernate.current_session_context_class">thread</property>
+        <mapping class="com.example.hibernate.entity.Student"/>
     </session-factory>
 </hibernate-configuration>

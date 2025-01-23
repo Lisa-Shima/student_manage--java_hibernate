@@ -9,26 +9,65 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "firstName")
-    private String firstName;
+    @Column(nullable = false)
+    private String name;
 
-    @Column(name = "lastName")
-    private String lastName;
-
-    @Column(name = "email")
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column
+    private String course;
+
+    @Column
+    private int age;
 
     public Student(){}
 
-    public Student(String firstName, String lastName, String email){
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Student(String name, String email, String course, int age){
+        this.name = name;
         this.email = email;
+        this.age = age;
+        this.course = course;
+    }
+
+    // Getters
+
+    public String getName(){
+        return name;
+    }
+    public String getEmail(){
+        return email;
+    }
+    public String getCourse(){
+        return course;
+    }
+    public int getAge(){
+        return age;
+    }
+    public int getId(){
+        return id;
+    }
+
+    // Setters
+    public void setId(int id){
+        this.id = id;
+    }
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setEmail(String email){
+        this.email = email;
+    }
+    public void setCourse(String course){
+        this.course = course;
+    }
+    public void setAge(int age){
+        this.age = age;
     }
 
     @Override
     public String toString(){
-        return "Student [id= " + id + ", firstName= " + firstName + ", lastName= " + lastName + ", email= " + email + "]";
+        return "Student [id= " + id + ", name= " + name + ", email= " + email + ", course= " + course +", age= " + age + "]";
     }
 
 }

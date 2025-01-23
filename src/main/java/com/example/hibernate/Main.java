@@ -2,28 +2,30 @@ package com.example.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import com.example.hibernate.entity.Student;
 public class Main {
     public static void main(String[] args){
-        SessionFactory sessionFactory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Student.class)
-                .buildSessionFactory();
+        Student student = new Student("Shima", "shima@gmail.com", "maths", 10);
 
-        Session session = sessionFactory.getCurrentSession();
-
+        Session session = null;
+        Transaction transaction = null;
         try{
-            Student student = new Student("Shima", "shima", "shima@gmail.com");
-
-            session.beginTransaction();
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
             session.save(student);
-            session.getTransaction().commit();
-
+            transaction.commit();
             System.out.println("Student saved successfully!");
         }
+        catch (Exception e){
+            if(transaction != null){
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
         finally {
-            sessionFactory.close();
+            HibernateUtil.shutdown();
         }
     }
 }
