@@ -5,27 +5,28 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import com.example.hibernate.entity.Student;
+import com.example.hibernate.CRUD.*;
 public class Main {
     public static void main(String[] args){
-        Student student = new Student("Shima", "shima@gmail.com", "maths", 10);
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            session.beginTransaction();
 
-        Session session = null;
-        Transaction transaction = null;
-        try{
-            session = HibernateUtil.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
-            session.save(student);
-            transaction.commit();
-            System.out.println("Student saved successfully!");
-        }
-        catch (Exception e){
-            if(transaction != null){
-                transaction.rollback();
+            // Create Student
+            CreateStudent.createStudent(session, "Lisa", "lisa@gmail.com", "phy", 12);
+
+            //Read Student
+            Student student = ReadStudent.getStudentById(session, 1);
+            if(student != null){
+                System.out.println("Found student: " + student.toString());
             }
-            e.printStackTrace();
-        }
-        finally {
-            HibernateUtil.shutdown();
+
+            //Update Student
+            UpdateStudent.updateStudent(session, 2, "lisa2", "lisa2@gmail.com", "phy2", 14);
+
+            //Delete Student
+            DeleteStudent.deleteStudent(session, 2);
+
+            session.getTransaction().commit();
         }
     }
 }
